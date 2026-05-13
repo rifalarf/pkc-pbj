@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mekanisme Pengadaan Barang & Jasa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              paper: '#F1F2EA',
+              accent: '#B8D1C3',
+              darkgreen: '#185B43',
+              midgreen: '#408068',
+              lighten: '#E3EAE6',
+            },
+            fontFamily: {
+              sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
+        body {
+            /* Paper texture using CSS gradients */
+            background-color: #F8F9F5;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        /* Hilangkan panah default details */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        /* Animasi mulus saat expand */
+        details[open] summary ~ * {
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-darkgreen font-sans antialiased min-h-screen flex flex-col items-center py-12 px-4 shadow-[inset_0_0_100px_rgba(0,0,0,0.03)]">
+
+    <!-- Header Section -->
+    <header class="w-full max-w-6xl mx-auto mb-12 text-center space-y-4">
+        <div class="inline-block bg-accent/40 text-darkgreen font-semibold px-4 py-1.5 rounded-full text-sm mb-2 shadow-sm border border-darkgreen/10">
+            Panduan Resmi Pengadaan
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-darkgreen tracking-tight leading-tight">
+            Mekanisme Pengadaan <br class="hidden md:block" />
+            Barang & Jasa
+        </h1>
+        <p class="text-midgreen max-w-2xl mx-auto text-base md:text-lg">
+            Pahami berbagai metode pengadaan berdasarkan nilai, urgensi, dan kompleksitas peruntukannya melalui panduan interaktif di bawah ini.
+        </p>
+    </header>
+
+    <!-- Main Grid Content -->
+    <main class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Card 1: Tender -->
+        <details id="card1" class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer lg:col-span-2 rounded-2xl">
+            <summary class="flex justify-between items-center p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-center gap-4">
+                    <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-darkgreen">1. 🏢 Tender (Terbuka & Terbatas)</h2>
+                        <span class="inline-block mt-2 bg-lighten text-midgreen text-xs font-bold px-2 py-1 uppercase tracking-wider rounded-md">Nilai Besar / Spesifikasi Khusus</span>
+                    </div>
+                </div>
+                <div class="transition-transform duration-300 group-open:rotate-180 bg-lighten p-2 rounded-full border border-darkgreen/10">
+                    <svg class="w-5 h-5 text-midgreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </summary>
+            
+            <div class="px-6 md:px-8 pb-8 pt-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Tender Terbuka -->
+                    <div class="bg-lighten p-5 border-l-4 border-midgreen shadow-sm rounded-xl">
+                        <h3 class="font-bold text-darkgreen text-lg mb-3 flex items-center gap-2">
+                            🌍 Tender Terbuka
+                        </h3>
+                        <ul class="space-y-4 text-sm text-midgreen">
+                            <li><span class="block text-xs font-bold text-darkgreen uppercase tracking-wide mb-0.5">Kriteria</span> Sifat pengadaan tidak kompleks.</li>
+                            <li><span class="block text-xs font-bold text-darkgreen uppercase tracking-wide mb-0.5">Batas Nilai</span> <span class="bg-accent/40 text-darkgreen font-semibold px-2 py-0.5 rounded-md">> Rp10.000.000.000</span> (sepuluh miliar rupiah)</li>
+                            <li><span class="block text-xs font-bold text-darkgreen uppercase tracking-wide mb-0.5">Syarat</span> Diumumkan luas (web/cetak), diikuti min. 3 penyedia, lulus kualifikasi min. 3 penyedia.</li>
+                        </ul>
+                    </div>
+                    <!-- Tender Terbatas -->
+                    <div class="bg-lighten p-5 border-l-4 border-midgreen shadow-sm rounded-xl">
+                        <h3 class="font-bold text-darkgreen text-lg mb-3 flex items-center gap-2">
+                             🔒 Tender Terbatas
+                        </h3>
+                        <ul class="space-y-4 text-sm text-midgreen">
+                            <li><span class="block text-xs font-bold text-darkgreen uppercase tracking-wide mb-0.5">Kriteria</span> Penyedia terbatas atau pekerjaan kompleks.</li>
+                            <li><span class="block text-xs font-bold text-darkgreen uppercase tracking-wide mb-0.5">Batas Nilai</span> <span class="bg-accent/40 text-darkgreen font-semibold px-2 py-0.5 rounded-md">> Rp10.000.000.000</span> (sepuluh miliar rupiah)</li>
+                            <li><span class="block text-xs font-bold text-darkgreen uppercase tracking-wide mb-0.5">Syarat</span> Diumumkan luas, ditawarkan min. kepada 3 penyedia, penawaran masuk min. 2 penyedia.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Card 2: Pemilihan Langsung -->
+        <details id="card2" class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer rounded-2xl">
+            <summary class="flex justify-between items-center p-6">
+                <div class="flex flex-col gap-2">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 mb-2 border border-amber-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-darkgreen">2. 🔎 Pemilihan Langsung</h2>
+                </div>
+                <div class="transition-transform duration-300 group-open:rotate-180 bg-lighten p-2 rounded-full border border-darkgreen/10">
+                    <svg class="w-5 h-5 text-midgreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </summary>
+            
+            <div class="px-6 pb-6 text-sm text-midgreen space-y-4">
+                <p>Membandingkan sebanyak-banyaknya penawaran, minimal dari 2 penyedia di Daftar Penyedia Mampu.</p>
+                <div class="bg-lighten text-darkgreen p-4 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <span class="block text-xs uppercase font-bold text-midgreen mb-1 tracking-wide">Batas Nilai</span>
+                    <span class="font-bold text-lg">💰 Sampai dengan Rp 10 M</span>
+                </div>
+                <div>
+                    <h4 class="font-bold text-darkgreen mb-2">Kondisi Pengecualian (Bisa digunakan):</h4>
+                    <ul class="list-disc pl-4 space-y-1 text-midgreen/90">
+                        <li>Kebutuhan mulai pelaksanaannya &lt; 60 hari.</li>
+                        <li>Tindak lanjut gagalnya Tender Ulang.</li>
+                        <li>Ditawarkan sekurang-kurangnya pada 2 penyedia.</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Card 3: Penunjukan Langsung -->
+        <details class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer md:col-span-2 rounded-2xl">
+            <summary class="flex justify-between items-center p-6 md:p-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 border border-rose-200">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-darkgreen">3. 🎯 Penunjukan Langsung</h2>
+                        <span class="inline-block mt-1 text-midgreen text-sm">Meniadakan kompetisi terbuka, untuk kondisi khusus saja.</span>
+                    </div>
+                </div>
+                <div class="transition-transform duration-300 group-open:rotate-180 bg-lighten p-2 rounded-full border border-darkgreen/10">
+                    <svg class="w-5 h-5 text-midgreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </summary>
+            
+            <div class="px-6 md:px-8 pb-8 pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div class="bg-lighten p-4 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <h4 class="font-bold text-darkgreen mb-1 flex items-center gap-2 tracking-wide uppercase text-xs">🚨 Mendesak</h4>
+                    <p class="text-midgreen">Darurat (Emergency / Urgent) terancammnya kelangsungan operasional/keselamatan.</p>
+                </div>
+                <div class="bg-lighten p-4 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <h4 class="font-bold text-darkgreen mb-1 flex items-center gap-2 tracking-wide uppercase text-xs">🥇 Penyedia Tunggal</h4>
+                    <p class="text-midgreen">Hanya ada 1 penyedia, barang memiliki HAKI, atau membutuhkan warranty OEM.</p>
+                </div>
+                <div class="bg-lighten p-4 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <h4 class="font-bold text-darkgreen mb-1 flex items-center gap-2 tracking-wide uppercase text-xs">🤝 Sinergi BUMN</h4>
+                    <p class="text-midgreen">Menyinergikan sesama anak perusahaan (diutamakan PI Grup), dengan harga wajar.</p>
+                </div>
+                <div class="bg-lighten p-4 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <h4 class="font-bold text-darkgreen mb-1 flex items-center gap-2 tracking-wide uppercase text-xs">🔄 Repeat Order</h4>
+                    <p class="text-midgreen">Untuk item yang sama, maksimal 2x berturut-turut, spek setara & harga lebih murah/sama.</p>
+                </div>
+            </div>
+        </details>
+
+        <!-- Card 4: Pengadaan Langsung -->
+        <details class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer rounded-2xl">
+            <summary class="flex justify-between items-center p-6">
+                <div class="flex flex-col gap-2">
+                    <div class="w-12 h-12 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center shrink-0 mb-2 border border-teal-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-darkgreen">4. 🛒 Pengadaan Langsung</h2>
+                </div>
+                <div class="transition-transform duration-300 group-open:rotate-180 bg-lighten p-2 rounded-full border border-darkgreen/10">
+                    <svg class="w-5 h-5 text-midgreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </summary>
+            
+            <div class="px-6 pb-6 text-sm text-midgreen space-y-4">
+                <p>Metode pembelian secara langsung terhadap barang yang sudah ada dan tertera harganya di pasar (termasuk e-purchasing / katalog elektronik) atau jasa yang segera diperlukan.</p>
+                <div class="bg-lighten text-darkgreen p-4 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <span class="block text-xs uppercase font-bold text-midgreen mb-1 tracking-wide">Batas Nilai</span>
+                    <span class="font-bold text-xl">💰 Maksimal Rp 200 Juta</span>
+                </div>
+            </div>
+        </details>
+
+        <!-- Card 5: Skema Khusus Lain -->
+        <details class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer lg:col-span-3 rounded-2xl">
+             <summary class="flex justify-between items-center p-6 md:p-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-200">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-darkgreen">5. ✨ Skema Khusus Lainnya</h2>
+                        <span class="inline-block mt-1 text-midgreen text-sm">Untuk rutinitas dan infrastruktur dasar operasional.</span>
+                    </div>
+                </div>
+                <div class="transition-transform duration-300 group-open:rotate-180 bg-lighten p-2 rounded-full border border-darkgreen/10">
+                    <svg class="w-5 h-5 text-midgreen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </summary>
+            
+            <div class="px-6 md:px-8 pb-8 pt-2 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <!-- Blanket Order -->
+                <div class="bg-lighten p-6 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <h3 class="font-bold text-darkgreen text-lg mb-2">📦 Blanket Order & Kontrak Harga Satuan</h3>
+                    <p class="text-midgreen leading-relaxed">Digunakan untuk pengadaan yang sifatnya rutin atau memiliki frekuensi tinggi, di mana semuanya diikat dalam satu kontrak payung/jangka panjang agar menghemat proses administrasi.</p>
+                </div>
+                <!-- Pengadaan Primer/Utama -->
+                <div class="bg-lighten p-6 border-l-4 border-midgreen shadow-sm rounded-xl">
+                    <h3 class="font-bold text-darkgreen text-lg mb-2">⚡ Pengadaan Primer/Utama</h3>
+                    <p class="text-midgreen leading-relaxed">Pengadaan Gas Alam, Air Baku, dan Listrik. Dapat dilakukan melalui mekanisme Penunjukan Langsung dengan kontrak jangka panjang tanpa administrasi reguler (OP).</p>
+                </div>
+            </div>
+        </details>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const card1 = document.getElementById('card1');
+            const card2 = document.getElementById('card2');
+            
+            if (card1 && card2) {
+                card1.addEventListener('toggle', (e) => {
+                    if (card1.open) {
+                        card2.open = true;
+                    } else {
+                        // Optional: close when card 1 closes
+                        // card2.open = false;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
