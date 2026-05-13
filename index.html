@@ -250,32 +250,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            function linkPair(id1, id2) {
-                const card1 = document.getElementById(id1);
-                const card2 = document.getElementById(id2);
-                if (!card1 || !card2) return;
-
-                function toggleBoth(e) {
-                    e.preventDefault();
-                    // Gunakan setTimeout agar transisi mulus
-                    const parent = e.currentTarget.parentElement;
-                    const nextState = !parent.hasAttribute('open');
-                    
-                    if (nextState) {
-                        card1.setAttribute('open', '');
-                        card2.setAttribute('open', '');
-                    } else {
-                        card1.removeAttribute('open');
-                        card2.removeAttribute('open');
+            function syncPair(id1, id2) {
+                const c1 = document.getElementById(id1);
+                const c2 = document.getElementById(id2);
+                if (!c1 || !c2) return;
+                
+                let isSyncing = false;
+                
+                function sync(source, target) {
+                    return function() {
+                        if (isSyncing) return;
+                        isSyncing = true;
+                        if (target.open !== source.open) {
+                            target.open = source.open;
+                        }
+                        isSyncing = false;
                     }
                 }
-
-                card1.querySelector('summary').addEventListener('click', toggleBoth);
-                card2.querySelector('summary').addEventListener('click', toggleBoth);
+                
+                c1.addEventListener('toggle', sync(c1, c2));
+                c2.addEventListener('toggle', sync(c2, c1));
             }
-
-            linkPair('card1', 'card2');
-            linkPair('card3', 'card4');
+            
+            // Sync pasang kartu
+            syncPair('card1', 'card2');
+            syncPair('card3', 'card4');
         });
     </script>
 </body>
