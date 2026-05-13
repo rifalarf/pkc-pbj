@@ -7,22 +7,34 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              paper: '#F1F2EA',
-              accent: '#B8D1C3',
-              darkgreen: '#185B43',
-              midgreen: '#408068',
-              lighten: '#E3EAE6',
-            },
-            fontFamily: {
-              sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        document.addEventListener('DOMContentLoaded', () => {
+            function linkPair(id1, id2) {
+                const card1 = document.getElementById(id1);
+                const card2 = document.getElementById(id2);
+                if (!card1 || !card2) return;
+
+                function toggleBoth(e) {
+                    e.preventDefault();
+                    // Gunakan setTimeout agar transisi mulus
+                    const parent = e.currentTarget.parentElement;
+                    const nextState = !parent.hasAttribute('open');
+                    
+                    if (nextState) {
+                        card1.setAttribute('open', '');
+                        card2.setAttribute('open', '');
+                    } else {
+                        card1.removeAttribute('open');
+                        card2.removeAttribute('open');
+                    }
+                }
+
+                card1.querySelector('summary').addEventListener('click', toggleBoth);
+                card2.querySelector('summary').addEventListener('click', toggleBoth);
             }
-          }
-        }
-      }
+
+            linkPair('card1', 'card2');
+            linkPair('card3', 'card4');
+        });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -238,21 +250,32 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            function linkPair(pair) {
-                if (!pair[0] || !pair[1]) return;
-                pair.forEach(card => {
-                    card.addEventListener('toggle', () => {
-                        const other = card === pair[0] ? pair[1] : pair[0];
-                        if (other.open !== card.open) {
-                            other.open = card.open;
-                        }
-                    });
-                });
+            function linkPair(id1, id2) {
+                const card1 = document.getElementById(id1);
+                const card2 = document.getElementById(id2);
+                if (!card1 || !card2) return;
+
+                function toggleBoth(e) {
+                    e.preventDefault();
+                    // Gunakan setTimeout agar transisi mulus
+                    const parent = e.currentTarget.parentElement;
+                    const nextState = !parent.hasAttribute('open');
+                    
+                    if (nextState) {
+                        card1.setAttribute('open', '');
+                        card2.setAttribute('open', '');
+                    } else {
+                        card1.removeAttribute('open');
+                        card2.removeAttribute('open');
+                    }
+                }
+
+                card1.querySelector('summary').addEventListener('click', toggleBoth);
+                card2.querySelector('summary').addEventListener('click', toggleBoth);
             }
 
-            // Sync pasang kartu di samping-menyamping
-            linkPair([document.getElementById('card1'), document.getElementById('card2')]);
-            linkPair([document.getElementById('card3'), document.getElementById('card4')]);
+            linkPair('card1', 'card2');
+            linkPair('card3', 'card4');
         });
     </script>
 </body>
