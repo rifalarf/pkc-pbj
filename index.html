@@ -144,7 +144,7 @@
         </details>
 
         <!-- Card 3: Penunjukan Langsung -->
-        <details class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer md:col-span-2 rounded-2xl">
+        <details id="card3" class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer md:col-span-2 rounded-2xl">
             <summary class="flex justify-between items-center p-6 md:p-8">
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 border border-rose-200">
@@ -181,7 +181,7 @@
         </details>
 
         <!-- Card 4: Pengadaan Langsung -->
-        <details class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer rounded-2xl">
+        <details id="card4" class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer rounded-2xl">
             <summary class="flex justify-between items-center p-6">
                 <div class="flex flex-col gap-2">
                     <div class="w-12 h-12 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center shrink-0 mb-2 border border-teal-200">
@@ -204,7 +204,7 @@
         </details>
 
         <!-- Card 5: Skema Khusus Lain -->
-        <details class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer lg:col-span-3 rounded-2xl">
+        <details id="card5" class="group bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md border border-accent transition-all duration-300 overflow-hidden cursor-pointer lg:col-span-3 rounded-2xl">
              <summary class="flex justify-between items-center p-6 md:p-8">
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-200">
@@ -238,19 +238,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const card1 = document.getElementById('card1');
-            const card2 = document.getElementById('card2');
-            
-            if (card1 && card2) {
-                card1.addEventListener('toggle', (e) => {
-                    if (card1.open) {
-                        card2.open = true;
-                    } else {
-                        // Optional: close when card 1 closes
-                        // card2.open = false;
-                    }
+            function linkPair(pair) {
+                if (!pair[0] || !pair[1]) return;
+                pair.forEach(card => {
+                    card.addEventListener('toggle', () => {
+                        const other = card === pair[0] ? pair[1] : pair[0];
+                        if (other.open !== card.open) {
+                            other.open = card.open;
+                        }
+                    });
                 });
             }
+
+            // Sync pasang kartu di samping-menyamping
+            linkPair([document.getElementById('card1'), document.getElementById('card2')]);
+            linkPair([document.getElementById('card3'), document.getElementById('card4')]);
         });
     </script>
 </body>
