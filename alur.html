@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alur Pengadaan Barang & Jasa - PT Pupuk Kujang</title>
+    <meta name="description" content="Alur pengadaan barang dan jasa PT Pupuk Kujang.">
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        kujang: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            600: '#008B45', // Kujang Corporate Green
+                            700: '#007037',
+                        },
+                        neutral: {
+                            950: '#080c14',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideDown { 
+            from { opacity: 0; transform: translateY(-8px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        /* Vertical line CSS */
+        .timeline-line {
+            position: absolute;
+            left: 24px; /* 1.5rem */
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e2e8f0; /* slate-200 */
+            z-index: 0;
+        }
+        .dark .timeline-line { background-color: #1e293b; /* slate-800 */ }
+        
+        @media (min-width: 768px) {
+            .timeline-line { left: 50%; transform: translateX(-50%); }
+            .timeline-card-left { text-align: right; padding-right: 3rem; }
+            .timeline-card-right { text-align: left; padding-left: 3rem; }
+            .timeline-badge-center { left: 50%; transform: translateX(-50%); }
+        }
+        
+        /* Modal transitions */
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
+        
+        /* Flip Card CSS */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .flip-card-inner { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; position: relative; width: 100%; height: 100%; }
+        @media (hover: hover) { .group:hover .flip-card-inner { transform: rotateY(180deg); } }
+        .group.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { backface-visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 1rem; }
+        .flip-card-back { transform: rotateY(180deg); display: flex; flex-direction: column; }
+        
+        /* Custom Scrollbar for flip back */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+        
+        /* Tooltip CSS */
+        .tooltip-trigger { position: relative; display: inline-block; cursor: help; border-bottom: 1px dashed currentColor; font-weight: 700; color: inherit; z-index: 10; }
+        .tooltip-content { 
+            position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) scale(0.95);
+            width: max-content; max-width: 280px; padding: 0.75rem; border-radius: 0.5rem;
+            background-color: #0f172a; color: #f8fafc; font-size: 0.75rem; font-weight: 400; text-align: left;
+            opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); line-height: 1.4; white-space: normal;
+        }
+        .tooltip-content::after {
+            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            border-width: 6px; border-style: solid; border-color: #0f172a transparent transparent transparent;
+        }
+        @media (hover: hover) { .tooltip-trigger:hover .tooltip-content { opacity: 1; transform: translateX(-50%) scale(1); pointer-events: auto; } }
+        /* Fallback tap for mobile */
+        .tooltip-trigger:active .tooltip-content, .tooltip-trigger:focus .tooltip-content { opacity: 1; transform: translateX(-50%) scale(1); pointer-events: auto; }
+        html.dark .tooltip-content { background-color: #1e293b; border: 1px solid #334155; }
+        html.dark .tooltip-content::after { border-color: #1e293b transparent transparent transparent; }
+    </style>
+</head>
+<body class="bg-slate-50/50 dark:bg-neutral-950 text-slate-700 dark:text-slate-350 font-sans antialiased min-h-screen flex flex-col transition-colors duration-300 relative">
+
+    <!-- Modal Container -->
+    <div id="imageModal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center p-4 sm:p-6 backdrop-blur-md bg-slate-900/90 modal-overlay opacity-0">
+        <div id="modalContent" class="relative w-full max-w-5xl bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-content scale-95 opacity-0">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-neutral-900 shrink-0">
+                <h3 id="modalTitle" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">Contoh Dokumen</h3>
+                <button onclick="closeModal()" class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <!-- Fixed Buttons -->
+            <button id="btnPrev" onclick="prevImage()" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/90 dark:bg-slate-800/90 shadow-xl text-slate-800 dark:text-white hover:bg-white transition-colors hidden z-20 border border-slate-200 dark:border-slate-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button id="btnNext" onclick="nextImage()" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/90 dark:bg-slate-800/90 shadow-xl text-slate-800 dark:text-white hover:bg-white transition-colors hidden z-20 border border-slate-200 dark:border-slate-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+
+            <!-- Image Area (Scrollable) -->
+            <div id="modalScrollContainer" class="relative flex-grow overflow-auto p-4 sm:p-8 bg-slate-100/80 dark:bg-black/60 min-h-[50vh]">
+                <img id="modalImage" src="" alt="Dokumen" class="w-full max-w-4xl h-auto mx-auto block rounded-lg shadow-md border border-slate-200 dark:border-slate-800 transition-opacity duration-200">
+            </div>
+            <!-- Footer / Counter -->
+            <div class="p-3 bg-white dark:bg-neutral-900 border-t border-slate-200 dark:border-slate-800 text-center text-sm font-bold text-slate-500 dark:text-slate-400 shrink-0 tracking-widest">
+                <span id="imageCounter">1 / 1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formal Header Top Branding Bar -->
+    <div class="w-full bg-slate-900 text-slate-400 py-1.5 px-6 border-b border-slate-800 text-[10px] tracking-wider uppercase font-semibold">
+
+    </div>
+
+    <!-- Premium Minimal Navbar -->
+    <nav class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-900 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 bg-kujang-600 dark:bg-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
+                    <span class="text-[10px] font-extrabold text-white tracking-widest leading-none">PK</span>
+                </div>
+                <div class="flex flex-col border-l border-slate-200 dark:border-slate-800 pl-3">
+                    <span class="font-extrabold text-xs tracking-tight text-slate-900 dark:text-white uppercase leading-none">PT PUPUK KUJANG</span>
+                    <span class="text-[8px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold mt-0.5">Kompartemen Umum & Rantai Pasok</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Back Button -->
+                <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-kujang-600 dark:hover:text-emerald-400 transition-colors">
+                    &larr; Beranda
+                </a>
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" class="p-2.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white transition-all bg-slate-100/50 dark:bg-slate-900/40 hover:bg-slate-100 dark:hover:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50" aria-label="Toggle Theme">
+                    <svg id="themeMoon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <svg id="themeSun" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="w-full max-w-4xl mx-auto pt-14 pb-10 px-6 space-y-6 text-center border-b border-slate-200 dark:border-slate-800">
+        <div class="space-y-3">
+            <h1 class="font-sans font-black text-2xl md:text-4xl text-slate-900 dark:text-white tracking-tight leading-tight uppercase">
+                Alur Pengadaan <br class="hidden md:block"/>
+                <span class="text-kujang-600 dark:text-emerald-500 font-extrabold">Barang dan Jasa</span>
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 text-sm md:text-base leading-relaxed max-w-2xl mx-auto font-medium">
+                Panduan interaktif tahapan pengadaan, batas waktu (SLA), dan contoh dokumen resmi PT Pupuk Kujang.
+            </p>
+        </div>
+        
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50 text-[10px] font-bold uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span> User / Perencana
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 text-[10px] font-bold uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Pelaku Pengadaan
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50 text-[10px] font-bold uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Keuangan / Akuntansi
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50 text-[10px] font-bold uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span> Otorisator
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-400 border border-slate-200 dark:border-slate-700 text-[10px] font-bold uppercase tracking-widest">
+                <span class="w-2 h-2 rounded-full bg-slate-500"></span> Rekanan / Vendor
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Content Section: Timeline -->
+    <main class="w-full max-w-4xl mx-auto px-6 py-14 flex-grow relative">
+        <div class="timeline-line"></div>
+
+        <!-- TAHAP 1 -->
+        <div class="mb-14 relative z-10">
+            <div class="sticky top-20 z-20 flex justify-center md:justify-start md:ml-0 md:-translate-x-0 bg-slate-50/90 dark:bg-neutral-950/90 backdrop-blur-sm py-2 mb-8 border-b border-slate-200 dark:border-slate-800">
+                <div class="text-center">
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Tahap 1: Persiapan & Perencanaan</h3>
+                    <span class="text-[10px] font-bold text-kujang-600 dark:text-emerald-500 uppercase tracking-widest">SLA: 7 Hari Kerja</span>
+                </div>
+            </div>
+
+            <!-- Node 1 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-blue-700 dark:text-blue-300 font-black text-sm z-10 shadow-md">1</div>
+                <div class="md:w-5/12 timeline-card-left hidden md:block"></div>
+                <div class="w-full md:w-5/12 timeline-card-right">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between bg-blue-50/30 dark:bg-blue-900/10 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Penyusunan Permintaan (MR/SR & HPS)</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Penanggung Jawab: Pengguna (User)</span>
+                                <p class="leading-relaxed">User merumuskan kebutuhan pengadaan dengan menyusun <span class="tooltip-trigger" tabindex="0">Material Requisition (MR)<span class="tooltip-content"><strong class="block text-blue-300 mb-1">MR (Material Requisition)</strong>Dokumen formulir daftar belanja awal yang digunakan User untuk meminta pembelian wujud fisik barang (stok dan/atau non-stok).</span></span> untuk barang atau <span class="tooltip-trigger" tabindex="0">Service Request (SR)<span class="tooltip-content"><strong class="block text-blue-300 mb-1">SR (Service Request)</strong>Dokumen formulir yang digunakan khusus untuk meminta pengadaan jasa yang telah direncanakan oleh fungsi terkait.</span></span> untuk jasa. Permintaan ini wajib dilampiri dengan <span class="tooltip-trigger" tabindex="0">Kerangka Acuan Kerja (KAK) / TOR<span class="tooltip-content"><strong class="block text-blue-300 mb-1">TOR / KAK</strong>Dokumen lampiran wajib pengadaan jasa. Berisi penjelasan detail proyek: ruang lingkup, spesifikasi teknis, waktu, dan syarat.</span></span> dan usulan <span class="tooltip-trigger" tabindex="0">Harga Perkiraan Sendiri (HPS)<span class="tooltip-content"><strong class="block text-blue-300 mb-1">HPS / OE</strong>Perhitungan harga Barang/Jasa yang disusun secara cermat (termasuk referensi Pasar Internasional) sebagai patokan kewajaran harga dan batas atas.</span></span>.</p>
+                            </div>
+                            <button onclick="openModal('Tahap 1: Penyusunan Permintaan', ['doc/SR_1.png', 'doc/SR_2.png', 'doc/TOR_1.png', 'doc/TOR_2.png', 'doc/TOR_3.png', 'doc/TOR_4.png', 'doc/TOR_5.png', 'doc/TOR_6.png', 'doc/TOR_7.png', 'doc/HPS.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Node 2 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-blue-700 dark:text-blue-300 font-black text-sm z-10 shadow-md">2</div>
+                <div class="w-full md:w-5/12 timeline-card-left">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between md:flex-row-reverse bg-blue-50/30 dark:bg-blue-900/10 hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Penerbitan Purchase Requisition (PR)</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Penanggung Jawab: Kompilator / Dept. Perencanaan</span>
+                                <p class="leading-relaxed">Fungsi perencana memverifikasi anggaran, mengevaluasi HPS final, dan menerbitkan dokumen <span class="tooltip-trigger" tabindex="0">PR<span class="tooltip-content"><strong class="block text-blue-300 mb-1">PR (Purchase Requisition)</strong>Dokumen permintaan pembelian resmi sistem SAP. Bukti anggaran dikonfirmasi dan siap dieksekusi pengadaan.</span></span> resmi di sistem SAP untuk diserahkan ke Eksekutor Pengadaan.</p>
+                            </div>
+                            <button onclick="openModal('Tahap 2: Dokumen PR', ['doc/PR.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+                <div class="md:w-5/12 timeline-card-right hidden md:block"></div>
+            </div>
+        </div>
+
+        <!-- TAHAP 2 -->
+        <div class="mb-14 relative z-10">
+            <div class="sticky top-20 z-20 flex justify-center md:justify-start md:ml-0 bg-slate-50/90 dark:bg-neutral-950/90 backdrop-blur-sm py-2 mb-8 border-b border-slate-200 dark:border-slate-800">
+                <div class="text-center">
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Tahap 2: Pelaksanaan Pengadaan</h3>
+                    <span class="text-[10px] font-bold text-kujang-600 dark:text-emerald-500 uppercase tracking-widest">SLA: 30 - 40 Hari Kerja</span>
+                </div>
+            </div>
+
+            <!-- Node 3 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-black text-sm z-10 shadow-md">3</div>
+                <div class="md:w-5/12 timeline-card-left hidden md:block"></div>
+                <div class="w-full md:w-5/12 timeline-card-right">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between bg-emerald-50/30 dark:bg-emerald-900/10 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Daftar Usulan Rekanan (DUR)</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Penanggung Jawab: Pelaku Pengadaan</span>
+                                <p class="leading-relaxed">Pembuatan dan penetapan daftar vendor kandidat yang akan diundang berdasarkan database Daftar Penyedia Mampu (DPM) beserta penandatanganan <span class="tooltip-trigger" tabindex="0">Pakta Integritas<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">Pakta Integritas</strong>Surat sumpah bermeterai bahwa panitia/vendor tidak akan melakukan KKN, pemalsuan, atau penyuapan.</span></span> panitia pengadaan. Daftar nominasi vendor ini dituangkan dalam <span class="tooltip-trigger" tabindex="0">DUR<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">DUR (Daftar Usulan Rekanan)</strong>Daftar nama penyedia barang/jasa potensial dari database Perusahaan yang diusulkan untuk diundang.</span></span>.</p>
+                                <div class="mt-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 border border-slate-100 dark:border-slate-700/50">
+                                    <strong class="block text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Kriteria / Batasan Approval DUR:</strong>
+                                    <ul class="space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <strong>≤ 50 Juta:</strong> Disetujui oleh VP</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> <strong>> 50 Juta - 250 Juta:</strong> Disetujui oleh SVP</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> <strong>> 250 Juta:</strong> Disetujui oleh Direktur yang membawahi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button onclick="openModal('Tahap 3: DUR & Pakta Integritas', ['doc/DUR_1.png', 'doc/DUR_2.png', 'doc/DUR_3.png', 'doc/PAKTA_INTEGRITAS.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Node 4 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-black text-sm z-10 shadow-md">4</div>
+                <div class="w-full md:w-5/12 timeline-card-left">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between md:flex-row-reverse bg-emerald-50/30 dark:bg-emerald-900/10 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">SPPH & Aanwijzing</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Penanggung Jawab: Pelaku Pengadaan</span>
+                                <p class="leading-relaxed">Pengiriman <span class="tooltip-trigger" tabindex="0">Surat Permintaan Penawaran Harga (SPPH)<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">SPPH</strong>Surat Permintaan Penawaran Harga yang memuat spesifikasi, batas waktu penawaran, dan target penyerahan pekerjaan.</span></span>. Jika pekerjaan kompleks, diadakan <span class="tooltip-trigger" tabindex="0">Aanwijzing<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">Aanwijzing</strong>Pemberian penjelasan teknis dan administrasi lelang (tatap muka atau daring via e-procurement) yang disahkan dalam Berita Acara.</span></span> secara tatap muka atau daring.</p>
+                                <div class="mt-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 border border-slate-100 dark:border-slate-700/50">
+                                    <strong class="block text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Komponen SPPH (Permintaan Penawaran Harga):</strong>
+                                    <ul class="space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Persyaratan Administrasi</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Persyaratan Teknis</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Draft Kontrak</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button onclick="openModal('Tahap 4: SPPH & Aanwijzing', ['doc/SPPH.png', 'doc/Aanwijzing_1.png', 'doc/Aanwijzing_2.png', 'doc/Aanwijzing_3.png', 'doc/Aanwijzing_4.png', 'doc/Aanwijzing_5.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+                <div class="md:w-5/12 timeline-card-right hidden md:block"></div>
+            </div>
+            
+            <!-- Node 5 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-slate-700 dark:text-slate-300 font-black text-sm z-10 shadow-md">5</div>
+                <div class="md:w-5/12 timeline-card-left hidden md:block"></div>
+                <div class="w-full md:w-5/12 timeline-card-right">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/10 hover:bg-slate-100 dark:hover:bg-slate-800/30">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Pemasukan SPH</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Penanggung Jawab: Rekanan / Vendor</span>
+                                <p class="leading-relaxed">Vendor memasukkan <span class="tooltip-trigger" tabindex="0">dokumen penawaran (SPH)<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">SPH (Surat Penawaran Harga)</strong>Proposal vendor berisi dokumen administrasi, teknis, dan nominal harga yang ditawarkan.</span></span> sebelum batas waktu. Pengadaan di atas Rp500 Juta wajib menyertakan <span class="tooltip-trigger" tabindex="0">Jaminan Penawaran (Bid Bond)<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">Bid Bond</strong>Jaminan penawaran sebesar 1-3% dari nilai penawaran dengan masa berlaku sekurang-kurangnya 180 hari untuk menghindari mundurnya vendor secara sepihak.</span></span> sebesar 1-3%.</p>
+                            </div>
+                            <button disabled class="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                Gambar Tidak Tersedia Sementara
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <!-- Node 6 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-black text-sm z-10 shadow-md">6</div>
+                <div class="w-full md:w-5/12 timeline-card-left">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between md:flex-row-reverse bg-emerald-50/30 dark:bg-emerald-900/10 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Pembukaan & Evaluasi Penawaran (BAPP & EPH)</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Penanggung Jawab: Pelaku Pengadaan</span>
+                                <p class="leading-relaxed">Panitia membuka penawaran yang dicatat dalam <span class="tooltip-trigger" tabindex="0">BAPP<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">BAPP (Berita Acara Pembukaan)</strong>Catatan peresmian pembukaan proposal vendor disaksikan bersama.</span></span> dilanjutkan <span class="tooltip-trigger" tabindex="0">Evaluasi Penawaran Harga (EPH)<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">EPH / Bid Tabulation</strong>Evaluasi Penawaran Harga atas administrasi, teknis, dan kewajaran harga sebagai dasar penetapan pemenang atau negosiasi lanjutan.</span></span> atas administrasi, teknis, kewajaran harga, dan pengiriman.</p>
+                            </div>
+                            <button onclick="openModal('Tahap 6: BAPP & EPH', ['doc/BAPP.png', 'doc/EPH_1.png', 'doc/EPH_2.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+                <div class="md:w-5/12 timeline-card-right hidden md:block"></div>
+            </div>
+
+            <!-- Node 7 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-black text-sm z-10 shadow-md">7</div>
+                <div class="md:w-5/12 timeline-card-left hidden md:block"></div>
+                <div class="w-full md:w-5/12 timeline-card-right">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between bg-emerald-50/30 dark:bg-emerald-900/10 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Negosiasi Harga</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Penanggung Jawab: Pelaku Pengadaan & Vendor</span>
+                                <p class="leading-relaxed">Proses tawar-menawar harga (e-auction/manual) dengan vendor peringkat pertama. Dituangkan dalam <span class="tooltip-trigger" tabindex="0">Berita Acara Negosiasi Harga (BANH)<span class="tooltip-content"><strong class="block text-emerald-300 mb-1">BANH</strong>Bukti kesepakatan tawar-menawar yang mencatat riwayat penurunan harga dari vendor peringkat pertama.</span></span>.</p>
+                            </div>
+                            <button onclick="openModal('Tahap 7: BANH', ['doc/BANH_1.png', 'doc/BANH_2.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAHAP 3 -->
+        <div class="mb-14 relative z-10">
+            <div class="sticky top-20 z-20 flex justify-center md:justify-start md:ml-0 bg-slate-50/90 dark:bg-neutral-950/90 backdrop-blur-sm py-2 mb-8 border-b border-slate-200 dark:border-slate-800">
+                <div class="text-center">
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Tahap 3: Persetujuan & Kontrak</h3>
+                </div>
+            </div>
+
+            <!-- Node 8 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-purple-700 dark:text-purple-400 font-black text-sm z-10 shadow-md">8</div>
+                <div class="w-full md:w-5/12 timeline-card-left">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between md:flex-row-reverse bg-purple-50/30 dark:bg-purple-900/10 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Persetujuan Pemenang</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">Penanggung Jawab: Otorisator / Pejabat</span>
+                                <p class="leading-relaxed">Penetapan pemenang pengadaan. Pemenang diberikan masa sanggah selama 2 hari setelah pengumuman, dan panitia wajib merespons maks 7 hari.</p>
+                            </div>
+                            <button onclick="openModal('Tahap 8: Persetujuan Pemenang', ['doc/PERSETUJUAN_PENETAPAN_PEMENANG.png', 'doc/PENETAPAN_PEMENANG.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+                <div class="md:w-5/12 timeline-card-right hidden md:block"></div>
+            </div>
+            
+            <!-- Node 9 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-purple-700 dark:text-purple-400 font-black text-sm z-10 shadow-md">9</div>
+                <div class="md:w-5/12 timeline-card-left hidden md:block"></div>
+                <div class="w-full md:w-5/12 timeline-card-right">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between bg-purple-50/30 dark:bg-purple-900/10 hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Perikatan Kontrak (PO/SPK)</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">Penanggung Jawab: Otorisator & Vendor</span>
+                                <p class="leading-relaxed">Penandatanganan <span class="tooltip-trigger" tabindex="0">kontrak kerja (PO/SPK)<span class="tooltip-content"><strong class="block text-amber-300 mb-1">PO / SPK / Perjanjian</strong>Dokumen ikatan kerja sah berisi hak, kewajiban, nilai proyek, penyelesaian, dan sanksi.</span></span>. Vendor wajib menyerahkan Jaminan Pelaksanaan maksimal 10 hari setelah kontrak terbit.</p>
+                                <div class="mt-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 border border-slate-100 dark:border-slate-700/50">
+                                    <strong class="block text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Jenis-Jenis Dokumen Kontrak:</strong>
+                                    <ul class="space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> <strong>PO / OK</strong> (Purchase Order / Order Kerja)</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> <strong>SPK</strong> (Surat Perintah Kerja)</li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> <strong>Perjanjian / SSKK</strong> (Syarat-Syarat Khusus Kontrak)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <button onclick="openModal('Tahap 9: Perikatan Kontrak', ['doc/Legal_Statment.png'])" class="w-full py-2 bg-slate-900 hover:bg-kujang-600 dark:bg-slate-800 dark:hover:bg-emerald-600 text-white font-bold rounded-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-kujang-600/30 flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Lihat Contoh Dokumen
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAHAP 4 -->
+        <div class="mb-14 relative z-10">
+            <div class="sticky top-20 z-20 flex justify-center md:justify-start md:ml-0 bg-slate-50/90 dark:bg-neutral-950/90 backdrop-blur-sm py-2 mb-8 border-b border-slate-200 dark:border-slate-800">
+                <div class="text-center">
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Tahap 4: Penerimaan & Pembayaran</h3>
+                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest">SLA: 30 - 60 Hari Kerja</span>
+                </div>
+            </div>
+
+            <!-- Node 10 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-amber-700 dark:text-amber-400 font-black text-sm z-10 shadow-md">10</div>
+                <div class="w-full md:w-5/12 timeline-card-left">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between md:flex-row-reverse bg-amber-50/30 dark:bg-amber-900/10 hover:bg-amber-50 dark:hover:bg-amber-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Penerimaan & Goods Receipt (GR)</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Penanggung Jawab: Penerimaan & Inspektor</span>
+                                <p class="leading-relaxed">Vendor mengirimkan barang/menyelesaikan jasa. Diinspeksi. Jika lolos uji mutu, diterbitkan <span class="tooltip-trigger" tabindex="0">GR Slip atau BAPP<span class="tooltip-content"><strong class="block text-amber-300 mb-1">GR Slip / BAPP</strong>Berita Acara Penerimaan Pekerjaan (atau GR) yang ditandatangani setelah inspeksi kelayakan dan lolos uji mutu sebagai syarat tagihan pembayaran.</span></span>.</p>
+                            </div>
+                            <button disabled class="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                Gambar Tidak Tersedia Sementara
+                            </button>
+                        </div>
+                    </details>
+                </div>
+                <div class="md:w-5/12 timeline-card-right hidden md:block"></div>
+            </div>
+            
+            <!-- Node 11 -->
+            <div class="relative flex flex-col md:flex-row md:justify-between items-start md:items-center w-full mb-8 group pl-12 md:pl-0">
+                <div class="timeline-badge-center absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900 border-4 border-white dark:border-neutral-950 flex items-center justify-center text-amber-700 dark:text-amber-400 font-black text-sm z-10 shadow-md">11</div>
+                <div class="md:w-5/12 timeline-card-left hidden md:block"></div>
+                <div class="w-full md:w-5/12 timeline-card-right">
+                    <details class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ring-1 ring-transparent hover:ring-slate-200 dark:hover:ring-slate-700">
+                        <summary class="p-4 cursor-pointer select-none flex items-center justify-between bg-amber-50/30 dark:bg-amber-900/10 hover:bg-amber-50 dark:hover:bg-amber-900/20">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Verifikasi & Pembayaran</h4>
+                            <svg class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </summary>
+                        <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-4">
+                            <div>
+                                <span class="inline-block mb-1 text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Penanggung Jawab: Verifikator & Keuangan</span>
+                                <p class="leading-relaxed">Verifikator memeriksa tagihan. Jika sah, dibuatkan Memo Verifikasi Pembayaran (MVP). Keuangan mengeksekusi transfer dalam 30-60 hari kerja.</p>
+                            </div>
+                            <button disabled class="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold rounded-lg cursor-not-allowed flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                                Gambar Tidak Tersedia Sementara
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Glosarium Section -->
+    <section class="w-full bg-slate-100/50 dark:bg-neutral-900/50 py-16 border-t border-slate-200 dark:border-slate-800" id="glosarium">
+        <div class="max-w-5xl mx-auto px-6 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div class="space-y-2">
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Kamus Dokumen Pengadaan <span class="text-kujang-600 dark:text-emerald-500">(Glosarium)</span></h2>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium text-sm">Penjelasan interaktif dan contoh fisik dokumen pada tiap tahapan.</p>
+                </div>
+                <div class="relative w-full md:w-72 shrink-0">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <input type="text" id="searchGlosarium" class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl leading-5 bg-white dark:bg-neutral-950 text-slate-900 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-kujang-500 focus:border-kujang-500 sm:text-sm transition-colors shadow-sm" placeholder="Cari dokumen (contoh: HPS, DUR)...">
+                </div>
+            </div>
+
+            <!-- A. Perencanaan -->
+            <div class="glosarium-category">
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> A. Dokumen Perencanaan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- MR/SR -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="mr material requisition sr service request">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">MR & SR</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Material / Service Request</p>
+                            </div>
+                            <div class="flip-card-back bg-blue-600 dark:bg-blue-900 border border-blue-500 dark:border-blue-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-blue-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">MR / SR</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-blue-200">Apa itu?</span> Dokumen formulir "daftar belanja" awal.</p>
+                                    <p><span class="font-bold text-blue-200">Isinya:</span> MR digunakan User untuk meminta pembelian wujud fisik barang, sedangkan SR khusus meminta pengadaan jasa.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh SR', ['doc/SR_1.png', 'doc/SR_2.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- TOR -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="tor term of reference kak kerangka acuan kerja rks">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">TOR / KAK</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Term of Reference</p>
+                            </div>
+                            <div class="flip-card-back bg-blue-600 dark:bg-blue-900 border border-blue-500 dark:border-blue-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-blue-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">TOR / KAK</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-blue-200">Apa itu?</span> Dokumen lampiran wajib pengadaan jasa (pendamping SR).</p>
+                                    <p><span class="font-bold text-blue-200">Isinya:</span> Penjelasan detail proyek: latar belakang, ruang lingkup, spesifikasi teknis, waktu, dan syarat peserta.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh TOR', ['doc/TOR_1.png', 'doc/TOR_2.png', 'doc/TOR_3.png', 'doc/TOR_4.png', 'doc/TOR_5.png', 'doc/TOR_6.png', 'doc/TOR_7.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- HPS -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="hps harga perkiraan sendiri oe owner's estimate">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">HPS / OE</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Harga Perkiraan Sendiri</p>
+                            </div>
+                            <div class="flip-card-back bg-blue-600 dark:bg-blue-900 border border-blue-500 dark:border-blue-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-blue-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">HPS / OE</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-blue-200">Apa itu?</span> Estimasi harga wajar barang/jasa yang dibeli.</p>
+                                    <p><span class="font-bold text-blue-200">Isinya:</span> Perhitungan harga secara cermat dan rahasia oleh panitia sebagai patokan/batas atas evaluasi vendor.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh HPS', ['doc/HPS.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PR -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="pr purchase requisition pp permintaan pembelian">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">PR</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Purchase Requisition</p>
+                            </div>
+                            <div class="flip-card-back bg-blue-600 dark:bg-blue-900 border border-blue-500 dark:border-blue-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-blue-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">PR</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-blue-200">Apa itu?</span> Dokumen permintaan pembelian resmi sistem SAP.</p>
+                                    <p><span class="font-bold text-blue-200">Isinya:</span> Bukti anggaran sudah dikonfirmasi dan kebutuhan pengadaan siap dieksekusi Dept. Pengadaan.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh PR', ['doc/PR.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. Pemilihan Vendor -->
+            <div class="glosarium-category pt-4">
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> B. Dokumen Pemilihan Vendor</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- DUR -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="dur daftar usulan rekanan nominasi vendor">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">DUR</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Daftar Usulan Rekanan</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">DUR</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Daftar nominasi vendor.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Nama penyedia barang/jasa potensial dari database Perusahaan yang diusulkan untuk diundang.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh DUR', ['doc/DUR_1.png', 'doc/DUR_2.png', 'doc/DUR_3.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SPPH -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="spph surat permintaan penawaran harga undangan vendor">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">SPPH</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Surat Permintaan Penawaran Harga</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">SPPH</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Surat undangan resmi untuk vendor.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Ajakan vendor untuk memberi penawaran, lengkap dengan spesifikasi barang/jasa dan waktu.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh SPPH', ['doc/SPPH.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Aanwijzing -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="aanwijzing berita acara rapat penjelasan">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">Aanwijzing</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Berita Acara Penjelasan</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">Aanwijzing</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Notulensi rapat penjelasan.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Bukti tertulis penjelasan detail panitia mengenai syarat teknis dan administrasi lelang.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh Aanwijzing', ['doc/Aanwijzing_1.png', 'doc/Aanwijzing_2.png', 'doc/Aanwijzing_3.png', 'doc/Aanwijzing_4.png', 'doc/Aanwijzing_5.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- SPH -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="sph surat penawaran harga proposal vendor">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">SPH</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Surat Penawaran Harga</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">SPH</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Surat balasan/proposal dari pihak Vendor.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Dokumen administrasi, teknis, dan nominal harga yang ditawarkan vendor ke Perusahaan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bid Bond -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="bid bond jaminan penawaran asuransi bank">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">Bid Bond</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Jaminan Penawaran</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">Bid Bond</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Jaminan keseriusan vendor (uang/sertifikat asuransi).</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Jaminan 1%-3% dari penawaran untuk memastikan vendor tidak mundur sepihak.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pakta Integritas -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="pakta integritas sumpah anti korupsi kkn">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">Pakta Integritas</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Surat Sumpah Anti-Korupsi</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">Pakta Integritas</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Surat sumpah anti-korupsi.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Pernyataan bermeterai (internal/vendor) tidak akan melakukan KKN, pemalsuan, atau penyuapan.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh Pakta Integritas', ['doc/PAKTA_INTEGRITAS.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BAPP -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="bapp berita acara pembukaan penawaran">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">BAPP</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Berita Acara Pembukaan Penawaran</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">BAPP</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Catatan peresmian pembukaan proposal vendor.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Daftar vendor yang memasukkan penawaran beserta kelengkapannya yang disaksikan bersama.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh BAPP', ['doc/BAPP.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- EPH -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="eph evaluasi penawaran harga bid tabulation">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">EPH</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Evaluasi Penawaran Harga</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">EPH</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Papan skor vendor (Bid Tabulation).</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Tabel perbandingan penawaran harga seluruh peserta untuk melihat siapa yang paling wajar.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh EPH', ['doc/EPH_1.png', 'doc/EPH_2.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BANH -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="banh berita acara negosiasi harga">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-emerald-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">BANH</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Berita Acara Negosiasi Harga</p>
+                            </div>
+                            <div class="flip-card-back bg-emerald-600 dark:bg-emerald-900 border border-emerald-500 dark:border-emerald-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-emerald-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">BANH</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-emerald-200">Apa itu?</span> Bukti kesepakatan tawar-menawar.</p>
+                                    <p><span class="font-bold text-emerald-200">Isinya:</span> Dokumen yang mencatat riwayat penurunan harga dari vendor peringkat pertama setelah dinegosiasi.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh BANH', ['doc/BANH_1.png', 'doc/BANH_2.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- C. Eksekusi & Penerimaan -->
+            <div class="glosarium-category pt-4">
+                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> C. Dokumen Eksekusi & Penerimaan</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- PO/SPK -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="po purchase order spk surat perintah kerja perjanjian kontrak pengadaan">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-amber-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">PO / SPK</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Purchase Order / Kontrak</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-600 dark:bg-amber-900 border border-amber-500 dark:border-amber-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-amber-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">PO / SPK</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-amber-200">Apa itu?</span> Dokumen ikatan kerja sah Perusahaan & Vendor.</p>
+                                    <p><span class="font-bold text-amber-200">Isinya:</span> Rincian hak, kewajiban, nilai proyek, waktu penyelesaian, dan sanksi keterlambatan.</p>
+                                </div>
+                                <button onclick="event.stopPropagation(); openModal('Contoh Kontrak', ['doc/Legal_Statment.png'])" class="mt-3 w-full py-1.5 bg-white/20 hover:bg-white/30 rounded text-xs font-bold transition-colors">Lihat Contoh Fisik</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- GR Slip -->
+                    <div class="glosarium-card group perspective-1000 h-64 cursor-pointer" data-keywords="gr slip goods receipt bapp berita acara penerimaan pekerjaan">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center p-6 text-center">
+                                <svg class="w-12 h-12 text-amber-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                <h4 class="text-xl font-black text-slate-900 dark:text-white">GR Slip / BAPP</h4>
+                                <p class="text-xs text-slate-500 mt-2 font-medium">Berita Acara Penerimaan</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-600 dark:bg-amber-900 border border-amber-500 dark:border-amber-800 text-white shadow-lg p-5">
+                                <h4 class="font-bold border-b border-amber-400/50 pb-2 mb-2 text-sm uppercase tracking-wider">GR Slip / BAPP</h4>
+                                <div class="flex-grow text-xs space-y-2 overflow-y-auto pr-1 custom-scrollbar">
+                                    <p><span class="font-bold text-amber-200">Apa itu?</span> Tanda terima barang/jasa.</p>
+                                    <p><span class="font-bold text-amber-200">Isinya:</span> Bukti sah barang diterima di gudang/jasa selesai dan lolos inspeksi uji mutu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State for Search -->
+            <div id="glosariumEmptyState" class="hidden text-center py-10">
+                <svg class="w-16 h-16 text-slate-300 dark:text-slate-700 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p class="text-slate-500 dark:text-slate-400 font-medium text-lg">Tidak ada dokumen yang sesuai dengan pencarian Anda.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="w-full mt-auto border-t border-slate-200 dark:border-slate-900 py-12 text-center text-[10px] text-slate-450 dark:text-slate-500 bg-white dark:bg-neutral-950 transition-colors font-medium relative z-20">
+        <div class="max-w-4xl mx-auto px-6 space-y-2.5">
+            <p class="font-extrabold tracking-widest uppercase text-slate-500 dark:text-slate-500">&copy; 2026 PT Pupuk Kujang. Hak Cipta Dilindungi.</p>
+            <p class="text-slate-400 dark:text-slate-600 font-semibold tracking-wide text-xs md:text-sm text-center max-w-2xl mx-auto uppercase">PEDOMAN UMUM PELAKSANAAN PENGADAAN BARANG DAN JASA PK-SMT-PD-003 7 april 2026</p>
+        </div>
+    </footer>
+
+    <!-- MODAL LOGIC & LIGHTWEIGHT INTERACTIVE TOGGLE LOGIC -->
+    <script>
+        // Modal Logic
+        let currentImages = [];
+        let currentIndex = 0;
+
+        const modal = document.getElementById('imageModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalImg = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const counter = document.getElementById('imageCounter');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        function openModal(title, images) {
+            currentImages = images;
+            currentIndex = 0;
+            modalTitle.textContent = title;
+            updateModalView();
+            
+            modal.classList.remove('hidden');
+            // trigger reflow
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function updateModalView() {
+            modalImg.style.opacity = '0.5';
+            setTimeout(() => {
+                modalImg.src = currentImages[currentIndex];
+                modalImg.style.opacity = '1';
+            }, 150);
+            
+            counter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
+            
+            if (currentImages.length > 1) {
+                btnPrev.classList.remove('hidden');
+                btnNext.classList.remove('hidden');
+            } else {
+                btnPrev.classList.add('hidden');
+                btnNext.classList.add('hidden');
+            }
+        }
+
+        function prevImage() {
+            if (currentImages.length <= 1) return;
+            currentIndex = (currentIndex === 0) ? currentImages.length - 1 : currentIndex - 1;
+            updateModalView();
+        }
+
+        function nextImage() {
+            if (currentImages.length <= 1) return;
+            currentIndex = (currentIndex === currentImages.length - 1) ? 0 : currentIndex + 1;
+            updateModalView();
+        }
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeModal();
+            }
+            if (e.key === 'ArrowRight' && !modal.classList.contains('hidden')) {
+                nextImage();
+            }
+            if (e.key === 'ArrowLeft' && !modal.classList.contains('hidden')) {
+                prevImage();
+            }
+        });
+
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Search Glosarium Logic
+        const searchInput = document.getElementById('searchGlosarium');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase();
+                const categories = document.querySelectorAll('.glosarium-category');
+                let totalVisibleCards = 0;
+
+                categories.forEach(category => {
+                    const cards = category.querySelectorAll('.glosarium-card');
+                    let categoryHasVisibleCards = false;
+
+                    cards.forEach(card => {
+                        const keywords = card.getAttribute('data-keywords') || "";
+                        if (keywords.includes(term)) {
+                            card.style.display = 'block';
+                            categoryHasVisibleCards = true;
+                            totalVisibleCards++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    category.style.display = categoryHasVisibleCards ? 'block' : 'none';
+                });
+
+                const emptyState = document.getElementById('glosariumEmptyState');
+                if (emptyState) {
+                    emptyState.style.display = totalVisibleCards === 0 ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Mobile Flip Logic
+        const glosariumCards = document.querySelectorAll('.glosarium-card');
+        glosariumCards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+            card.addEventListener('mouseleave', function() {
+                this.classList.remove('flipped');
+            });
+        });
+
+        // Tooltip Boundary Logic
+        const tooltips = document.querySelectorAll('.tooltip-trigger');
+        tooltips.forEach(t => {
+            const content = t.querySelector('.tooltip-content');
+            if(content) {
+                const adjustPosition = () => {
+                    content.style.left = '';
+                    content.style.right = '';
+                    content.style.transform = '';
+                    
+                    const rect = content.getBoundingClientRect();
+                    if (rect.left < 10) {
+                        content.style.left = '0';
+                        content.style.transform = 'translateX(0) scale(1)';
+                    } else if (rect.right > window.innerWidth - 10) {
+                        content.style.left = 'auto';
+                        content.style.right = '0';
+                        content.style.transform = 'translateX(0) scale(1)';
+                    }
+                };
+                t.addEventListener('mouseenter', adjustPosition);
+                t.addEventListener('touchstart', adjustPosition, {passive: true});
+                t.addEventListener('mouseleave', () => {
+                    content.style.left = '';
+                    content.style.right = '';
+                    content.style.transform = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

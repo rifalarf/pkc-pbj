@@ -1,209 +1,152 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mekanisme Pengadaan Barang & Jasa</title>
+    <title>Portal SMT - PT Pupuk Kujang</title>
+    <meta name="description" content="Portal Pengadaan Barang dan Jasa PT Pupuk Kujang.">
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Hilangkan panah default details */
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-
-        /* Animasi mulus saat expand */
-        details[open] summary ~ * {
-            animation: slideDown 0.3s ease-out;
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        kujang: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            600: '#008B45', // Kujang Corporate Green
+                            700: '#007037',
+                        },
+                        neutral: {
+                            950: '#080c14',
+                        }
+                    }
+                }
+            }
         }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col items-center py-10 px-4">
+<body class="bg-slate-50/50 dark:bg-neutral-950 text-slate-700 dark:text-slate-350 font-sans antialiased min-h-screen flex flex-col transition-colors duration-300">
 
-    <!-- Header Section -->
-    <header class="w-full max-w-6xl mx-auto mb-10 text-center space-y-4">
-        <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Mekanisme Pengadaan <br class="hidden md:block" />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Barang & Jasa</span>
+    <!-- Formal Header Top Branding Bar -->
+    <div class="w-full bg-slate-900 text-slate-400 py-1.5 px-6 border-b border-slate-800 text-[10px] tracking-wider uppercase font-semibold">
+
+    </div>
+
+    <!-- Premium Minimal Navbar -->
+    <nav class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-900 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-md transition-all duration-300">
+        <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 bg-kujang-600 dark:bg-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
+                    <span class="text-[10px] font-extrabold text-white tracking-widest leading-none">PK</span>
+                </div>
+                <div class="flex flex-col border-l border-slate-200 dark:border-slate-800 pl-3">
+                    <span class="font-extrabold text-xs tracking-tight text-slate-900 dark:text-white uppercase leading-none">PT PUPUK KUJANG</span>
+                    <span class="text-[8px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold mt-0.5">Kompartemen Umum & Rantai Pasok</span>
+                </div>
+            </div>
+
+            <!-- Theme Toggle Button -->
+            <button id="themeToggle" class="p-2.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white transition-all bg-slate-100/50 dark:bg-slate-900/40 hover:bg-slate-100 dark:hover:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50" aria-label="Toggle Theme">
+                <svg id="themeMoon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+                <svg id="themeSun" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Formal Handbook Title Section -->
+    <header class="w-full max-w-3xl mx-auto pt-16 pb-8 px-6 space-y-3.5 text-center">
+        <h1 class="font-sans font-black text-2xl md:text-3.5xl text-slate-900 dark:text-white tracking-tight leading-tight uppercase border-slate-900 dark:border-slate-800 pb-2">
+            Portal Panduan <br class="hidden md:block"/>
+            <span class="text-kujang-600 dark:text-emerald-500 font-extrabold">Pengadaan Barang & Jasa</span>
         </h1>
-        <p class="text-slate-500 max-w-2xl mx-auto text-base md:text-lg">
-            Pahami berbagai metode pengadaan berdasarkan nilai, urgensi, dan kompleksitas peruntukannya melalui panduan interaktif di bawah ini.
+        <p class="text-slate-450 dark:text-slate-500 text-xs leading-relaxed max-w-xl mx-auto font-medium">
+            Silakan pilih bagian panduan di bawah ini untuk melihat detail lengkap sesuai dengan buku pedoman resmi PT Pupuk Kujang.
         </p>
     </header>
 
-    <!-- Main Grid Content -->
-    <main class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- Card 1: Tender -->
-        <details class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer lg:col-span-2">
-            <summary class="flex justify-between items-center p-6 md:p-8">
-                <div class="flex flex-col md:flex-row md:items-center gap-4">
-                    <div class="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                        <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+    <!-- Main Content Section -->
+    <main class="w-full max-w-3xl mx-auto px-6 pb-28 flex-grow">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <!-- Card 1: Alur Pengadaan -->
+            <a href="alur.html" class="group block bg-white dark:bg-slate-900/10 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-kujang-600 dark:hover:border-emerald-500 hover:shadow-xl dark:hover:shadow-emerald-900/10 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-kujang-50 dark:bg-emerald-900/10 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-14 h-14 bg-kujang-100 dark:bg-emerald-900/30 text-kujang-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-6 border border-kujang-200 dark:border-emerald-800/50">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-slate-800">Tender (Terbuka & Terbatas)</h2>
-                        <span class="inline-block mt-2 bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-1 rounded">Nilai Besar / Spesifikasi Khusus</span>
-                    </div>
-                </div>
-                <div class="transition-transform duration-300 group-open:rotate-180 bg-slate-50 p-2 rounded-full border border-slate-100">
-                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-            </summary>
-
-            <div class="px-6 md:px-8 pb-8 pt-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Tender Terbuka -->
-                    <div class="bg-blue-50/50 p-5 rounded-xl border border-blue-100">
-                        <h3 class="font-bold text-blue-900 text-lg mb-3 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span> Tender Terbuka
-                        </h3>
-                        <ul class="space-y-4 text-sm text-slate-700">
-                            <li><span class="block text-xs font-bold text-slate-400 uppercase mb-0.5">Kriteria</span> Sifat pengadaan tidak kompleks.</li>
-                            <li><span class="block text-xs font-bold text-slate-400 uppercase mb-0.5">Batas Nilai</span> <span class="bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded">> Rp10.000.000.000</span> (sepuluh miliar rupiah)</li>
-                            <li><span class="block text-xs font-bold text-slate-400 uppercase mb-0.5">Syarat</span> Diumumkan luas (web/cetak), diikuti min. 3 penyedia, lulus kualifikasi min. 3 penyedia.</li>
-                        </ul>
-                    </div>
-                    <!-- Tender Terbatas -->
-                    <div class="bg-orange-50/50 p-5 rounded-xl border border-orange-100">
-                        <h3 class="font-bold text-orange-900 text-lg mb-3 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-orange-500"></span> Tender Terbatas
-                        </h3>
-                        <ul class="space-y-4 text-sm text-slate-700">
-                            <li><span class="block text-xs font-bold text-slate-400 uppercase mb-0.5">Kriteria</span> Penyedia terbatas atau pekerjaan kompleks.</li>
-                            <li><span class="block text-xs font-bold text-slate-400 uppercase mb-0.5">Batas Nilai</span> <span class="bg-orange-100 text-orange-800 font-semibold px-2 py-0.5 rounded">> Rp10.000.000.000</span> (sepuluh miliar rupiah)</li>
-                            <li><span class="block text-xs font-bold text-slate-400 uppercase mb-0.5">Syarat</span> Diumumkan luas, ditawarkan min. kepada 3 penyedia, penawaran masuk min. 2 penyedia.</li>
-                        </ul>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-kujang-600 dark:group-hover:text-emerald-400 transition-colors">1. Alur Pengadaan</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-grow">
+                        Pelajari tahapan dan prosedur standar dalam pelaksanaan alur pengadaan barang dan jasa.
+                    </p>
+                    <div class="mt-6 flex items-center text-sm font-bold text-kujang-600 dark:text-emerald-400">
+                        Lihat Detail <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </div>
                 </div>
-            </div>
-        </details>
+            </a>
 
-        <!-- Card 2: Pemilihan Langsung -->
-        <details class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-            <summary class="flex justify-between items-center p-6">
-                <div class="flex flex-col gap-2">
-                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mb-2">
-                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            <!-- Card 2: Mekanisme Pengadaan -->
+            <a href="mekanisme.html" class="group block bg-white dark:bg-slate-900/10 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 hover:border-amber-500 dark:hover:border-amber-500 hover:shadow-xl dark:hover:shadow-amber-900/10 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-24 h-24 bg-amber-50 dark:bg-amber-900/10 rounded-full group-hover:scale-150 transition-transform duration-500 ease-out"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-14 h-14 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center mb-6 border border-amber-200 dark:border-amber-800/50">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                     </div>
-                    <h2 class="text-xl font-bold text-slate-800">Pemilihan Langsung</h2>
-                </div>
-                <div class="transition-transform duration-300 group-open:rotate-180 bg-slate-50 p-2 rounded-full border border-slate-100">
-                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-            </summary>
-
-            <div class="px-6 pb-6 text-sm text-slate-700 space-y-4">
-                <p>Membandingkan sebanyak-banyaknya penawaran, minimal dari 2 penyedia di Daftar Penyedia Mampu.</p>
-                <div class="bg-amber-50 text-amber-900 p-3 rounded-lg border border-amber-200">
-                    <span class="block text-xs uppercase font-bold text-amber-700/70 mb-1">Batas Nilai</span>
-                    <span class="font-bold text-lg">Sampai dengan Rp 10 M</span>
-                </div>
-                <div>
-                    <h4 class="font-bold text-slate-800 mb-2">Kondisi Pengecualian (Bisa digunakan):</h4>
-                    <ul class="list-disc pl-4 space-y-1 text-slate-600">
-                        <li>Kebutuhan mulai pelaksanaannya < 60 hari.</li>
-                        <li>Tindak lanjut gagalnya Tender Ulang.</li>
-                        <li>Ditawarkan sekurang-kurangnya pada 2 penyedia.</li>
-                    </ul>
-                </div>
-            </div>
-        </details>
-
-        <!-- Card 3: Penunjukan Langsung -->
-        <details class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer md:col-span-2">
-            <summary class="flex justify-between items-center p-6 md:p-8">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-                        <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-slate-800">Penunjukan Langsung</h2>
-                        <span class="inline-block mt-1 text-slate-500 text-sm">Meniadakan kompetisi terbuka, untuk kondisi khusus saja.</span>
+                    <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">2. Mekanisme Pengadaan</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed flex-grow">
+                        Ketahui 4 metode utama pengadaan, termasuk batas nilai nominal dan kriteria persyaratannya.
+                    </p>
+                    <div class="mt-6 flex items-center text-sm font-bold text-amber-600 dark:text-amber-400">
+                        Lihat Detail <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </div>
                 </div>
-                <div class="transition-transform duration-300 group-open:rotate-180 bg-slate-50 p-2 rounded-full border border-slate-100">
-                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-            </summary>
-
-            <div class="px-6 md:px-8 pb-8 pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                <div class="bg-red-50 p-4 rounded-xl border border-red-100">
-                    <h4 class="font-bold text-red-900 mb-1 flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 3.8l7.5 13.2H4.5L12 5.8zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg> Mendesak</h4>
-                    <p class="text-red-800">Darurat (Emergency / Urgent) terancammnya kelangsungan operasional/keselamatan.</p>
-                </div>
-                <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
-                    <h4 class="font-bold text-purple-900 mb-1 flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11 2v4.88c-2.32.48-4.2 2.36-4.68 4.68H2v2.88h4.32c.48 2.32 2.36 4.2 4.68 4.68V22h2.88v-4.32c2.32-.48 4.2-2.36 4.68-4.68H22v-2.88h-4.32c-.48-2.32-2.36-4.2-4.68-4.68V2h-2.88zm1.44 6.88a4.12 4.12 0 110 8.24 4.12 4.12 0 010-8.24z"/></svg> Penyedia Tunggal</h4>
-                    <p class="text-purple-800">Hanya ada 1 penyedia, barang memiliki HAKI, atau membutuhkan warranty OEM.</p>
-                </div>
-                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
-                    <h4 class="font-bold text-indigo-900 mb-1 flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> Sinergi BUMN</h4>
-                    <p class="text-indigo-800">Menyinergikan sesama anak perusahaan (diutamakan PI Grup), dengan harga wajar.</p>
-                </div>
-                <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                    <h4 class="font-bold text-emerald-900 mb-1 flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg> Repeat Order</h4>
-                    <p class="text-emerald-800">Untuk item yang sama, maksimal 2x berturut-turut, spek setara & harga lebih murah/sama.</p>
-                </div>
-            </div>
-        </details>
-
-        <!-- Card 4: Pengadaan Langsung -->
-        <details class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer">
-            <summary class="flex justify-between items-center p-6">
-                <div class="flex flex-col gap-2">
-                    <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center shrink-0 mb-2">
-                        <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h2 class="text-xl font-bold text-slate-800 mb-1">Pengadaan Langsung</h2>
-                </div>
-                <div class="transition-transform duration-300 group-open:rotate-180 bg-slate-50 p-2 rounded-full border border-slate-100">
-                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-            </summary>
-
-            <div class="px-6 pb-6 text-sm text-slate-700 space-y-4">
-                <p>Metode pembelian secara langsung terhadap barang yang sudah ada dan tertera harganya di pasar (termasuk e-purchasing / katalog elektronik) atau jasa yang segera diperlukan.</p>
-                <div class="bg-teal-50 text-teal-900 px-4 py-3 rounded-xl border border-teal-200">
-                    <span class="block text-xs uppercase font-bold text-teal-700/70 mb-1">Batas Nilai</span>
-                    <span class="font-bold text-xl">Nilai maksimal Rp200.000.000 (dua ratus juta rupiah)</span>
-                </div>
-            </div>
-        </details>
-
-        <!-- Card 5: Skema Khusus Lain -->
-        <details class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer lg:col-span-3">
-             <summary class="flex justify-between items-center p-6 md:p-8">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                        <svg class="w-7 h-7 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-slate-800">Skema Khusus Lainnya</h2>
-                        <span class="inline-block mt-1 text-slate-500 text-sm">Untuk rutinitas dan infrastruktur dasar operasional.</span>
-                    </div>
-                </div>
-                <div class="transition-transform duration-300 group-open:rotate-180 bg-slate-50 p-2 rounded-full border border-slate-100">
-                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-            </summary>
-
-            <div class="px-6 md:px-8 pb-8 pt-2 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                <!-- Blanket Order -->
-                <div>
-                    <h3 class="font-bold text-slate-800 text-base mb-2 border-b-2 border-slate-100 pb-2">📦 Blanket Order & Kontrak Harga Satuan</h3>
-                    <p class="text-slate-600 leading-relaxed">Digunakan untuk pengadaan yang sifatnya rutin atau memiliki frekuensi tinggi, di mana semuanya diikat dalam satu kontrak payung/jangka panjang agar menghemat proses administrasi.</p>
-                </div>
-                <!-- Pengadaan Primer/Utama -->
-                <div>
-                    <h3 class="font-bold text-slate-800 text-base mb-2 border-b-2 border-slate-100 pb-2">⚡ Pengadaan Primer/Utama</h3>
-                    <p class="text-slate-600 leading-relaxed">Pengadaan Gas Alam, Air Baku, dan Listrik. Dapat dilakukan melalui mekanisme Penunjukan Langsung dengan kontrak jangka panjang tanpa administrasi reguler (OP).</p>
-                </div>
-            </div>
-        </details>
-
+            </a>
+        </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="w-full mt-auto border-t border-slate-200 dark:border-slate-900 py-12 text-center text-[10px] text-slate-450 dark:text-slate-500 bg-white dark:bg-neutral-950 transition-colors font-medium">
+        <div class="max-w-3xl mx-auto px-6 space-y-2.5">
+            <p class="font-extrabold tracking-widest uppercase text-slate-500 dark:text-slate-500">&copy; 2026 PT Pupuk Kujang. Hak Cipta Dilindungi.</p>
+            <p class="text-slate-400 dark:text-slate-600 font-semibold tracking-wide text-xs md:text-sm text-center max-w-2xl mx-auto uppercase">PEDOMAN UMUM PELAKSANAAN PENGADAAN BARANG DAN JASA PK-SMT-PD-003 7 april 2026</p>
+        </div>
+    </footer>
+
+    <!-- LIGHTWEIGHT INTERACTIVE TOGGLE LOGIC -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
+
